@@ -1,0 +1,38 @@
+﻿@page
+@using Microsoft.AspNetCore.Authentication
+@model UGCL.Web.Pages.SignInModel
+@inject IAuthenticationSchemeProvider schemeProvider
+
+@{
+    var externalLogins = (await schemeProvider.GetAllSchemesAsync()).Where(s => s.DisplayName != null);
+
+    ViewData["Title"] = "Sign In";
+}
+
+@if (externalLogins.Any())
+{
+    <form method="post" asp-page="ExternalLogin">
+        <input type="hidden" asp-for="ReturnUrl" />
+
+        <div class="d-grid gap-3">
+            @foreach (var provider in externalLogins)
+            {
+                <button type="submit" name="provider" value="@provider.Name" title="Log in with @provider.DisplayName"
+                    class="btn btn-outline-dark rounded-pill">
+                    <img src="/@provider.Name-logo.svg" />
+                    Sign in with @provider.DisplayName
+                </button>
+            }
+        </div>
+    </form>
+}
+@if (!externalLogins.Any())
+{
+    <div class="alert alert-primary text-center" role="alert">
+        No external login providers have been configured, and local accounts were not added from the project template.
+        <br>
+        You will need to <a href="https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social">
+            setup some other login provider
+        </a>.
+    </div>
+}

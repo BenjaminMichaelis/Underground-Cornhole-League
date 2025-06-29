@@ -1,0 +1,16 @@
+{
+  "webProject": {
+    "projectFile": "./UGCL.Web/UGCL.Web.csproj"
+  },
+  "dataProject": {
+    "projectFile": "./UGCL.Data/UGCL.Data.csproj"
+  },
+
+  "rootGenerator": "Vue",
+
+  "generatorConfig": {
+    "Scripts": {
+      "targetDirectory": "../src"
+    }
+  }
+}
